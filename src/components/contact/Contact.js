@@ -1,0 +1,71 @@
+import React, { useState } from "react";
+import './styles.css';
+import { Box } from "@mui/material";
+import useAnalyticsEventTracker from "../useAnalyticsEventTracker";
+
+const FORM_ENDPOINT =
+	"https://public.herotofu.com/v1/875317c0-82b3-11ed-b38f-a1ed22f366b1";
+	
+const Contact = () => {
+	const gaEventTracker = useAnalyticsEventTracker("Contact");
+	const [submitted, setSubmitted] = useState(false);
+	const handleSubmit = () => {
+		setTimeout(() => {
+			setSubmitted(true);
+		}, 100);
+	};
+
+	if (submitted) {
+		return (
+			<Box
+				component={"main"}
+				display={"flex"}
+				flexDirection={{ xs: "column", md: "row" }}
+				alignItems={"center"}
+				justifyContent={"center"}
+				minHeight={"calc(100vh - 175px)"}
+			>
+				<h2>Thank you!</h2>
+				<div class='paragraph'>I'll be in touch soon.</div>
+			</Box>
+		);
+	}
+
+	return (
+		<Box
+			component={"main"}
+			display={"flex"}
+			flexDirection={{ xs: "column", md: "row" }}
+			alignItems={"center"}
+			justifyContent={"center"}
+			minHeight={"calc(100vh - 175px)"}
+		>
+			<h1 class='paragraph'>Contact Me</h1>
+			<p class='paragraph'>Lets create something together!</p>
+			<form
+				action={FORM_ENDPOINT}
+				onSubmit={handleSubmit}
+				method='POST'
+				target='_blank'
+			>
+				<div>
+					<input type='text' placeholder='Name' name='name' required />
+				</div>
+				<div>
+					<input type='email' placeholder='Email' name='email' required />
+				</div>
+				<div>
+					<textarea placeholder='Message' name='message' required />
+				</div>
+				<div>
+					<button type='submit' onClick={() => gaEventTracker("email")}>
+						{" "}
+						Send it!{" "}
+					</button>
+				</div>
+			</form>
+		</Box>
+	);
+};
+
+export default Contact;
